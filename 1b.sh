@@ -9,5 +9,5 @@ do
 done
  echo "all the directories created"
  else
- echo "please enter a parameter"
+ echo "please enter the parametrs"
 fi
