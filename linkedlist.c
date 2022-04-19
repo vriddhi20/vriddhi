@@ -1,7 +1,7 @@
 #include<stdio.h>
 #include<stdlib.h>
-typedef struct Node* lstptr;
-struct Node
+typedef struct node* lstptr;
+struct node
 {
 int data;
 lstptr link;
@@ -9,143 +9,176 @@ lstptr link;
 lstptr first=NULL;
 lstptr getnode()
 {
-lstptr node;
-node=(lstptr)malloc(sizeof(struct Node));
-return node;
+lstptr ptr;
+ptr=(lstptr) malloc(sizeof(struct node));
 }
+
 void InsertBegin(int ele)
 {
- lstptr new;
- new=getnode();
- new->data=ele;
- new->link=NULL;
- if(first!=NULL)
- new->link=first;
- first=new;
+lstptr new;
+new=getnode();
+new->data=ele;
+new->link=NULL;
+if(first!=NULL)
+{
+new->link=first;
 }
+first=new;
+}
+
 void InsertEnd(int ele)
 {
- lstptr new,temp;
- new=getnode();
- new->data=ele;
- new->link=NULL;
- if(first!=NULL)
+lstptr new,temp;
+new=getnode();
+new->data=ele;
+new->link=NULL;
+if(first==NULL)
+{
+new->link=first;
+first=new;
+}
+else
 {
 temp=first;
 while(temp->link!=NULL)
+{
 temp=temp->link;
+}
 temp->link=new;
 }
-else
-first=new;
 }
 
 void deleteBegin()
 {
- lstptr temp;
- if(first==NULL)
- {
- printf("list is empty");
-}
-else
+lstptr temp;
+if(first==NULL)
 {
+printf("\nlist is empty");
+exit(0);
+}
 temp=first;
-if(first->link==NULL)
-first=NULL;
-else
 first=first->link;
 free(temp);
 }
-}
-void deleteEnd()
+
+void DeleteEnd()
 {
- lstptr temp,prev;
- if(first==NULL)
- {
- printf("list is empty");
-}
-else
+lstptr temp,prev;
+if(first==NULL)
 {
+printf("\nlist is empty");
+exit(0);
+}
 temp=first;
 if(first->link==NULL)
+{
 first=NULL;
+free(temp);
+}
 else
 {
-prev=temp;
+prev=first;
 while(temp->link!=NULL)
 {
 prev=temp;
-temp->link=NULL;
+temp=temp->link;
 }
+prev->link=NULL;
+free(temp);
+}
+}
+
+void DeleteSpecific(int ele)
+{
+lstptr temp,prev;
+temp=first;
+if(first==NULL)
+{
+printf("\nEmpty list\n");
+}
+else if(first->data==ele)
+{
+if(first->link!=NULL)
+first=first->link;
+else
+first=NULL;
+}
+else
+{
+while(temp->data!=ele && temp->link!=NULL)
+{
+prev=temp;
+temp=temp->link;
+}
+if(temp->link==NULL && temp->data!=ele)
+{
+printf("\nspecific element not found\n");
+return;
+}
+else if(temp->link!=NULL)
+prev->link=temp->link;
+else 
 prev->link=NULL;
 }
 free(temp);
 }
-}
 
 void display()
 {
- lstptr temp;
- if(first==NULL)
- {
- printf("list is empty");
- exit(0);
- }
- temp=first;
- while(temp->link!=NULL)
- {
- printf("%d\t",temp->data);
- temp=temp->link;
- }
- printf("%d\t",temp->data);
+lstptr temp;
+temp=first;
+if(first==NULL)
+{
+printf("\nList is empty");
+exit(0);
 }
-
-
+while(temp->link!=NULL)
+{
+printf("%d\t",temp->data);
+temp=temp->link;
+}
+printf("%d\t",temp->data);
+}
 
 void main()
 {
- int ele,ch,opt=1;
-while(opt)
+int op=1,ch,ele;
+while(op)
 {
- printf("1.InsertBegin\n 2.INSERT_END\n 3.DELETEBEGIN\n 4.INSERTBEGIN\n 5.INSERT_END\n 5.DELETE_SPECIFIC\n 6.DISPLAY\n");
- printf("enter your choice\n");
- scanf("%d",&ch);
+printf("\n1.Insert Begin \n2.Insert End \n3.Delete Begin \n4.Delete End \n5.delete specific \n6.Display");
+printf("\nEnter your choice:");
+scanf("%d",&ch);
 switch(ch)
 {
-case 1:printf("enter the element");
-	scanf("%d",&ele);
-        InsertBegin(ele);
-	break;
-case 2:printf("enter the element");
-	scanf("%d",&ele);
-        InsertEnd(ele);
-	break;
+case 1:printf("Enter the element:");
+scanf("%d",&ele);
+insertBegin(ele);
+break;
+
+case 2:printf("Enter the element:");
+scanf("%d",&ele);
+insertEnd(ele);
+break;
 case 3:deleteBegin();
-	break;
+break;
+case 4:deleteEnd();
+break;
+case 5:if(first==NULL)
+{
+printf("\nlist is empty");
+break;
+}
+printf("Enter the element to delete:");
+scanf("%d",&ele);
+deleteSpecific(ele);
+break;	
 case 6:display();
-	break;
+break;
 }
-printf("do you want to continue(0,1)");
-scanf("%d",&opt);
+printf("\nDo you want to continue?(0/1):");
+scanf("%d",&op);
 }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
